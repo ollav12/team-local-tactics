@@ -6,9 +6,8 @@ HEADER = 64
 PORT = 5050 # port number
 SERVER = socket.gethostbyname(socket.gethostname()) # This assigns the variable SERVER with your localhost ip adress automaticly.
 ADDRESS = (SERVER, PORT)
-FORMAT = "utf-8"
+FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM) # creating a socket using a tcp socket
 server.bind(ADDRESS) # Binds the socket together with the adress
@@ -26,7 +25,8 @@ def handle_client(connection, address):
                 if msg == DISCONNECT_MESSAGE:
                     connected = False
 
-            print(f"[{address}] {msg}")
+                print(f"[{address}] {msg}")
+                connection.send("Msg received".encode(FORMAT))
 
     connection.close()
 
