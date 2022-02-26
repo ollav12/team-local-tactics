@@ -1,6 +1,7 @@
 # This is ths server where the game will be running on
 import socket
 import threading
+import teamlocaltactics as tlt
 
 HEADER = 64
 PORT = 5050 # port number
