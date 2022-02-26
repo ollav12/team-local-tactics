@@ -2,5 +2,22 @@
 Mandatory Assignment Group Number: 49
 Group members (1): Olav Høysæther Opheim
 
-# Team Local Tactics
+# team-local-tactics.py
+
+
+
+# core.py
+
+
+# championlistloader.py
+
+
+
+# server.py
+
+
+# client.py
+
+
+# database.py
 
