@@ -19,13 +19,14 @@ def handle_client(connection, address):
 
     connected = True
     while connected:
-        msg_length = connection.recv(HEADER).decode(FORMAT)
-        msg_length = int(msg_length)
-        msg = connection.recv(msg_length).decode(FORMAT)
-        if msg == DISCONNECT_MESSAGE:
-            connected = False
+            msg_length = connection.recv(HEADER).decode(FORMAT)
+            if msg_length: 
+                msg_length = int(msg_length)
+                msg = connection.recv(msg_length).decode(FORMAT)
+                if msg == DISCONNECT_MESSAGE:
+                    connected = False
 
-        print(f"[{address}] {msg}")
+            print(f"[{address}] {msg}")
 
     connection.close()
 
@@ -35,9 +36,9 @@ def start(): # Function that starts to liste for connections
     print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         connection, address = server.accept()
-        thread = threading.Thread(target = handle_client, args=(connection, address))
+        thread = threading.Thread(target = handle_client, args = (connection, address))
         thread.start()
-        print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+        print(f"[ACTIVE CONNECTIONS] {threading.active_count() - 1}")
 
 
 
