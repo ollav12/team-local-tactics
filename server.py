@@ -32,6 +32,7 @@ def handle_client(connection, address):
 
 def start(): # Function that starts to liste for connections 
     server.listen() # Enables the server to listen for connections
+    print(f"[LISTENING] Server is listening on {SERVER}")
     while True:
         connection, address = server.accept()
         thread = threading.Thread(target = handle_client, args=(connection, address))
