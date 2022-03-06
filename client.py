@@ -6,7 +6,7 @@ HEADER = 64
 PORT = 5050
 FORMAT = 'utf-8'
 DISCONNECT_MESSAGE = "!DISCONNECT"
-SERVER = server.SERVER # Finds and uses the ip address saved in the variable SERVER from file server.py
+SERVER = "192.168.56.1" #server.SERVER # Finds and uses the ip address saved in the variable SERVER from file server.py
 ADDRESS = (SERVER, PORT)
 
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,6 +21,6 @@ def send(msg):
     client.send(message)
     print(client.recv(2048).decode(FORMAT))
 
-send("Hello World")
+send("Hello")
 
 send(DISCONNECT_MESSAGE)
