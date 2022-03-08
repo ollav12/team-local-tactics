@@ -8,6 +8,6 @@ Group members (1): Olav Høysæther Opheim
 3. You can now play the game, if you want to play agian you will have to restart the server and client
 
 # Scrips Working
-Server: Working
-Client: Working
-Database: Not Working
+- Server: Working
+- Client: Working
+- Database: Not Working
