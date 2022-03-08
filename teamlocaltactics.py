@@ -1,8 +1,7 @@
 from rich import print
 from rich.prompt import Prompt
 from rich.table import Table
-
-from champlistloader import load_some_champs
+from database import load_some_champs
 from core import Champion, Match, Shape, Team
 
 
@@ -44,7 +43,6 @@ def input_champion(prompt: str,
             case _:
                 player1.append(name)
                 break
-
 
 def print_match_summary(match: Match) -> None:
 
