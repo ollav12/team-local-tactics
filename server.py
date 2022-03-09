@@ -100,7 +100,7 @@ def game_loop(player_one, player_two):
         # While true loop where we are expecting a champion name from player one and then validating if the champion is valid or not.
         while True:
             player_one_champion = player_one.recv(1024).decode() # recive champion one from player 1
-            if validate_champion_pick(player_one_champion, player_one, champions, player_one_team, player_two_team) == True:
+            if tnt.validate_champion_pick(player_one_champion, player_one, champions, player_one_team, player_two_team) == True:
                 player_one.send("Valid".encode()) # Sends the message "Valid" to player one
                 player_one_team.append(player_one_champion) # appends first_pick to player_one_team
                 print("[Player 1 Picked Champion]") # SERVER TERMINAL
@@ -117,7 +117,7 @@ def game_loop(player_one, player_two):
         # Same as which player one but now for player two
         while True:
             player_two_champion = player_two.recv(1024).decode()
-            if validate_champion_pick(player_two_champion, player_two, champions, player_two_team, player_one_team) == True:
+            if tnt.validate_champion_pick(player_two_champion, player_two, champions, player_two_team, player_one_team) == True:
                 player_two.send("Valid".encode())
                 player_two_team.append(player_two_champion)
                 print("[Player 2 picked champion]") # SERVER TERMINAL
@@ -129,54 +129,26 @@ def game_loop(player_one, player_two):
 
     delay(0.1)
     # Here we use the get_scores method.
-    get_scores(player_one_team, player_two_team, champions, player_one, player_two)
+    tnt.get_scores(player_one_team, player_two_team, champions, player_one, player_two)
 
-    delay(0.1)
+    delay(10)
+    player_one.send("[[bold yellow]Game closing in:[/bold yellow]] [white]\n".encode())
+    player_two.send("[[bold yellow]Game closing in:[/bold yellow]] [white]\n".encode())
+    delay(1)
+    player_one.send("[3]".encode())
+    player_two.send("[3]".encode())
+    delay(1)
+    player_one.send("[2]".encode())
+    player_two.send("[2]".encode())
+    delay(1)
+    player_one.send("[1]\n".encode())
+    player_two.send("[1]\n".encode())
+    
+    delay(0.5)
     # Now that the game is finished we send the message to the client which then breaks out of the "champion input" loop
     player_one.send("game finished".encode())
     player_two.send("game finished".encode())
     print("[Game finished]") # SERVER TERMINAL
-
-# This method checks if the champion pick is valid or not
-def validate_champion_pick(champion, player_number, champions, you, opponent):
-
-    if champion in you:
-        player_number.send(f'[{champion} is already in your team. Try again.]'.encode()) # Same method as in teamlocaltactics.py but modifed to send error message to the player directly
-    elif champion in opponent:
-        player_number.send(f'[{champion} is in the enemy team. Try again.]'.encode())
-    elif champion not in champions:
-        player_number.send(f'[The champion {champion} is not available. Try again.]'.encode())
-    else:
-        return True
-
-# get_scores function from teamlocaltactics but modified.
-def get_scores(  sel1: list,
-                sel2: list,
-                champions: dict[Champion],
-                player1: socket,
-                player2: socket):
-    
-    match = Match(
-        Team([champions[name] for name in sel1]),
-        Team([champions[name] for name in sel2])
-    )
-    match.play()
-
-    game_results = tnt.return_match_summary(match) # Using the function from teamnetworktactics to get match_summary of match
-
-    for i in range(len(game_results)):
-        delay(0.1)
-        player1.send("\n".encode())
-        player2.send("\n".encode())
-
-        delay(0.1)
-        player1.send("next message is pickled".encode())
-        player2.send("next message is pickled".encode())
-
-        delay(0.1)
-        pickle_champs = pickle.dumps(game_results[i])
-        player1.send(pickle_champs)
-        player2.send(pickle_champs)
 
 # This fucntions just creates a delay before doing something, created it because it made the code look better and more readable (in my opinion)
 def delay(sec): # Here you input the amount of time you it to delay for
