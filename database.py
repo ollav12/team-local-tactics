@@ -1,4 +1,5 @@
 from core import Champion
+import csv
 
 def _parse_champ(champ_text: str) -> Champion:
     name, rock, paper, scissors = champ_text.split(sep=',')
@@ -13,5 +14,11 @@ def from_csv(filename: str) -> dict[str, Champion]:
             champions[champ.name] = champ
     return champions
 
+# Database function, if i edit stats in champions.txt it will modify the way the champions works.
 def load_some_champs():
     return from_csv('champions.txt')
+
+# Saves match history in match_history.txt
+def save_match_history(results):
+    with open('match_history.txt', "w") as f:
+        f.write(f"{results}\n")
