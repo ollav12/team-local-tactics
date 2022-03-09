@@ -1,6 +1,7 @@
 from rich.table import Table
 from core import Champion, Match, Shape, Team
 import socket, server, pickle
+from database import save_match_history
 
 
 # Return match summary
@@ -48,6 +49,8 @@ def return_match_summary(match: Match) -> None:
         results += '\nDraw :expressionless:'
     
     info.append(results)
+
+    save_match_history(info) # saves the match history 
 
     return info
 

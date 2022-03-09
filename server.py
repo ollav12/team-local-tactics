@@ -2,7 +2,7 @@ import socket, time, pickle
 import teamnetworktactics as tnt
 from threading import Thread
 from rich import print
-from core import Champion, Match, Team
+#from core import Champion, Match, Team
 from database import load_some_champs
 
 IP = 'localhost'
