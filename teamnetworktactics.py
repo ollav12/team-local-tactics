@@ -48,9 +48,8 @@ def return_match_summary(match: Match) -> None:
     else:
         results += '\nDraw :expressionless:'
     
+    save_match_history(results) # saves the match history 
     info.append(results)
-
-    save_match_history(info) # saves the match history 
 
     return info
 

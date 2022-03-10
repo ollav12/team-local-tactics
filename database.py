@@ -1,5 +1,5 @@
 from core import Champion
-import csv
+import csv, pickle
 
 def _parse_champ(champ_text: str) -> Champion:
     name, rock, paper, scissors = champ_text.split(sep=',')
@@ -20,5 +20,6 @@ def load_some_champs():
 
 # Saves match history in match_history.txt
 def save_match_history(results):
-    with open('match_history.txt', "w") as f:
-        f.write(f"{results}\n")
+    with open('match_history.txt', 'a', newline = '\n') as f:
+        f.write("\n")
+        f.write(f"{results}")

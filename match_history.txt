@@ -1,0 +1,9 @@
+Red: 3
+Blue: 3
+Draw :expressionless:
+Red: 2
+Blue: 4
+[blue]Blue victory! :grin:
+Red: 4
+Blue: 2
+[red]Red victory! :grin:
