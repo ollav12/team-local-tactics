@@ -10,3 +10,6 @@ Blue: 2
 Red: 3
 Blue: 3
 Draw :expressionless:
+Red: 1
+Blue: 5
+[blue]Blue victory! :grin:

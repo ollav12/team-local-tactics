@@ -8,15 +8,15 @@ from database import save_match_history
 # I
 def return_match_summary(match: Match) -> None:
 
-    # Here we create varialbes to save summary and results
-    summary = []
-    results = ""
-
     EMOJI = {
         Shape.ROCK: ':raised_fist-emoji:',
         Shape.PAPER: ':raised_hand-emoji:',
         Shape.SCISSORS: ':victory_hand-emoji:'
     }
+
+    # Here we create varialbes to save summary and results
+    summary = []
+    results = ""
 
     # For each round print a table with the results
     for index, round in enumerate(match.rounds):
@@ -53,6 +53,7 @@ def return_match_summary(match: Match) -> None:
         results += '\nDraw :expressionless:'
     
     save_match_history(results) # saves the match history 
+    
     summary.append(results)
 
     return summary
@@ -102,18 +103,18 @@ def get_match_results(player_one_team, player_two_team, champions, player_one, p
 
     game_results = return_match_summary(match)
 
-    player_one.send("next message is pickled".encode())
-    player_two.send("next message is pickled".encode())
-
     # Simple for loop in range of length of the list gane_results
     # Sends a new line first then "next message is pickled" and then the pickled message going through all of the strings in the list
     for i in range(len(game_results)):
+        server.delay(0.1)
         player_one.send("\n".encode())
         player_two.send("\n".encode())
 
+        server.delay(0.1)
         player_one.send("next message is pickled".encode())
         player_two.send("next message is pickled".encode())
 
+        server.delay(0.1)
         pickle_champs = pickle.dumps(game_results[i])
         player_one.send(pickle_champs)
         player_two.send(pickle_champs)
