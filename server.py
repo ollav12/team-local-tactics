@@ -82,7 +82,7 @@ def game_loop(player_one, player_two):
 
     delay(1)
     # Now we use methods from other scripts to display avalible champions to the players
-    champions = load_some_champs() # method from championloader.py
+    champions = load_some_champs() # method from database.py
     available_champs = tnt.return_available_champs(champions) # method form teamnetworktactics.py
     pickled_avalible_champs = pickle.dumps(available_champs) # Here we pickle the avalible_champs
 
@@ -99,12 +99,12 @@ def game_loop(player_one, player_two):
 
         # While true loop where we are expecting a champion name from player one and then validating if the champion is valid or not.
         while True:
-            player_one_champion = player_one.recv(1024).decode() # recive champion one from player 1
-            if tnt.validate_champion_pick(player_one_champion, player_one, champions, player_one_team, player_two_team) == True:
+            player_one_champion = player_one.recv(1024).decode() # recive champion from player 1
+            if tnt.validate_champion_pick(player_one_champion, player_one, champions, player_one_team, player_two_team) == True: # function from teamnetworktactics.py that checks if the champ is valid
                 player_one.send("Valid".encode()) # Sends the message "Valid" to player one
-                player_one_team.append(player_one_champion) # appends first_pick to player_one_team
+                player_one_team.append(player_one_champion) # appends player_one_champion to player_one_team
                 print("[Player 1 Picked Champion]") # SERVER TERMINAL
-                break # Breaks out of the while loop
+                break
         
         player_one_pick = "[red]Player 1[white]: " + player_one_champion # Here we save a message which says: Player 1: {first_pick}.
         player_two.send(player_one_pick.encode()) # message is sent to player_two
@@ -129,7 +129,7 @@ def game_loop(player_one, player_two):
 
     delay(0.1)
     # Here we use the get_scores method.
-    tnt.get_scores(player_one_team, player_two_team, champions, player_one, player_two)
+    tnt.get_match_results(player_one_team, player_two_team, champions, player_one, player_two)
 
     delay(10)
     player_one.send("[[bold yellow]Game closing in:[/bold yellow]] [white]\n".encode())

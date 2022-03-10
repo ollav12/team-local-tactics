@@ -1,5 +1,4 @@
 from core import Champion
-import csv, pickle
 
 def _parse_champ(champ_text: str) -> Champion:
     name, rock, paper, scissors = champ_text.split(sep=',')

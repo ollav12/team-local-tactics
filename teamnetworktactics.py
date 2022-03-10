@@ -5,16 +5,18 @@ from database import save_match_history
 
 
 # Return match summary
+# I
 def return_match_summary(match: Match) -> None:
+
+    # Here we create varialbes to save summary and results
+    summary = []
+    results = ""
 
     EMOJI = {
         Shape.ROCK: ':raised_fist-emoji:',
         Shape.PAPER: ':raised_hand-emoji:',
         Shape.SCISSORS: ':victory_hand-emoji:'
     }
-
-    info = []
-    results = ""
 
     # For each round print a table with the results
     for index, round in enumerate(match.rounds):
@@ -35,12 +37,14 @@ def return_match_summary(match: Match) -> None:
             red, blue = key.split(', ')
             round_summary.add_row(f'{red} {EMOJI[round[key].red]}',
                                   f'{blue} {EMOJI[round[key].blue]}')
-        info.append(round_summary)
+        summary.append(round_summary)
 
+    # Adds the score to results string
     red_score, blue_score = match.score
     results += f'Red: {red_score}\n'
     results += f'Blue: {blue_score}'
 
+    # Adds the winner to results string
     if red_score > blue_score:
         results += '\n[red]Red victory! :grin:'
     elif red_score < blue_score:
@@ -49,9 +53,9 @@ def return_match_summary(match: Match) -> None:
         results += '\nDraw :expressionless:'
     
     save_match_history(results) # saves the match history 
-    info.append(results)
+    summary.append(results)
 
-    return info
+    return summary
 
 # Return avalible champions function
 def return_available_champs(champions: dict[Champion]) -> None:
@@ -70,13 +74,14 @@ def return_available_champs(champions: dict[Champion]) -> None:
     for champion in champions.values():
         available_champs.add_row(*champion.str_tuple)
 
-    return available_champs
+    return available_champs # identical to print_avalible_champs but instead if print we use return
 
 # Validate champion pick function
+# Identical to input_champion function from teamlocaltactics.py but here we send instead of printing
 def validate_champion_pick(champion, player_number, champions, you, opponent):
 
     if champion in you:
-        player_number.send(f'[{champion} is already in your team. Try again.]'.encode()) # Same method as in teamlocaltactics.py but modifed to send error message to the player directly
+        player_number.send(f'[{champion} is already in your team. Try again.]'.encode()) 
     elif champion in opponent:
         player_number.send(f'[{champion} is in the enemy team. Try again.]'.encode())
     elif champion not in champions:
@@ -84,26 +89,31 @@ def validate_champion_pick(champion, player_number, champions, you, opponent):
     else:
         return True
 
-def get_scores(sel1: list, sel2: list, champions: dict[Champion], player1: socket, player2: socket):
+    
+# Get scores function
+# Identical to parts of the main() function in teamlocaltactics.py
+def get_match_results(player_one_team, player_two_team, champions, player_one, player_two):
     
     match = Match(
-        Team([champions[name] for name in sel1]),
-        Team([champions[name] for name in sel2])
+        Team([champions[name] for name in player_one_team]),
+        Team([champions[name] for name in player_two_team])
     )
     match.play()
 
-    game_results = return_match_summary(match) # Using the function from teamnetworktactics to get match_summary of match
+    game_results = return_match_summary(match)
 
+    player_one.send("next message is pickled".encode())
+    player_two.send("next message is pickled".encode())
+
+    # Simple for loop in range of length of the list gane_results
+    # Sends a new line first then "next message is pickled" and then the pickled message going through all of the strings in the list
     for i in range(len(game_results)):
-        server.delay(0.1)
-        player1.send("\n".encode())
-        player2.send("\n".encode())
+        player_one.send("\n".encode())
+        player_two.send("\n".encode())
 
-        server.delay(0.1)
-        player1.send("next message is pickled".encode())
-        player2.send("next message is pickled".encode())
+        player_one.send("next message is pickled".encode())
+        player_two.send("next message is pickled".encode())
 
-        server.delay(0.1)
         pickle_champs = pickle.dumps(game_results[i])
-        player1.send(pickle_champs)
-        player2.send(pickle_champs)
+        player_one.send(pickle_champs)
+        player_two.send(pickle_champs)

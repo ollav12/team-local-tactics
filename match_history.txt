@@ -7,3 +7,6 @@ Blue: 4
 Red: 4
 Blue: 2
 [red]Red victory! :grin:
+Red: 3
+Blue: 3
+Draw :expressionless:
