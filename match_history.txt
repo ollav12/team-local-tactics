@@ -13,3 +13,9 @@ Draw :expressionless:
 Red: 1
 Blue: 5
 [blue]Blue victory! :grin:
+Red: 4
+Blue: 2
+[red]Red victory! :grin:
+Red: 4
+Blue: 2
+[red]Red victory! :grin:

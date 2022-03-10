@@ -48,11 +48,6 @@ def waiting_for_opponent(player_number):
 # This method is used for the game
 def game_loop(player_one, player_two):
 
-
-    # Here we create two empty lists, one for p1 and one for p2. Here we are gonna save the champions they pick
-    player_one_team = []
-    player_two_team = []
-
     delay(1)
     # Once the thread has started we then send both players the message "opponent foun"
     player_one.send("[Your opponent is ready! Match starting...]\n".encode())
@@ -89,9 +84,13 @@ def game_loop(player_one, player_two):
     #Then we send the pickled_avalible_champs to p1 and p2
     player_one.send(pickled_avalible_champs)
     player_two.send(pickled_avalible_champs) 
-      
+    
+    # Here we create two empty lists, one for p1 and one for p2. Here we are gonna save the champions they pick
+    player_one_team = []
+    player_two_team = []
+
     # for loop where players are inputting two champs each in total one at a time
-    for i in range (2):
+    for i in range(2):
 
         delay(0.1)
         player_one.send("1".encode()) # Player one recives "1" which signals that it is player one's turn

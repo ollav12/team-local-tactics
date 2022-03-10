@@ -15,27 +15,26 @@ def client_initialize():
 def game_loop(client_sock, player_number):
     while True:
         message = client_sock.recv(1024).decode()
-        if message == "game finished":
-            break
         if message == player_number:
             while True:
                 if player_number == "1":
-                    text = "[red]Player " + player_number + "[white]"
+                    text = "[red]Player " + player_number + ":[white]"
                 else:
-                    text = "[blue]Player " + player_number + "[white]"
+                    text = "[blue]Player " + player_number + ":[white]"
 
-                player_number_champion = Prompt.ask(text)
+                player_number_champion = Prompt.ask(text) # Here we use pompt.ask instead of input becuse if we used input player would not display any color
                 client_sock.send(player_number_champion.encode())
                 valid = client_sock.recv(1024).decode()
                 if valid == "Valid":
                     break
                 else:
                     print(valid)
-
         elif message == "next message is pickled":
             pickled_message = client_sock.recv(4096)
             unpickled_message = pickle.loads(pickled_message)
             print(unpickled_message)
+        elif message == "game finished":
+            break
         else:
             print(message)
 
